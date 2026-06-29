@@ -3,10 +3,10 @@ package command_test
 import (
 	"testing"
 
-	command "github.com/gloo-foo/cmd-xargs"
-
 	"github.com/gloo-foo/testable"
 	"github.com/gloo-foo/testable/assertion"
+
+	command "github.com/gloo-foo/cmd-xargs"
 )
 
 func TestXargs_DefaultSplitsEachField(t *testing.T) {

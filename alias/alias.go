@@ -25,5 +25,5 @@ type (
 	// Exec injects the per-group command factory.
 	Exec = command.XargsExec
 	// CommandFor builds the command run for one group's argv.
-	CommandFor = command.CommandFor
+	CommandFor = command.Factory
 )

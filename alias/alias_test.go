@@ -6,10 +6,10 @@ import (
 	"strings"
 	"testing"
 
-	xargs "github.com/gloo-foo/cmd-xargs/alias"
-
 	gloo "github.com/gloo-foo/framework"
 	"github.com/gloo-foo/testable"
+
+	xargs "github.com/gloo-foo/cmd-xargs/alias"
 )
 
 // record is a fake exec factory: it emits the argv it was handed as one line,

@@ -6,14 +6,14 @@ import (
 	"testing"
 	"time"
 
-	command "github.com/gloo-foo/cmd-xargs"
-
 	gloo "github.com/gloo-foo/framework"
 	"github.com/gloo-foo/testable"
 	"github.com/gloo-foo/testable/assertion"
+
+	command "github.com/gloo-foo/cmd-xargs"
 )
 
-// recordRun is a fake CommandFor: instead of running a real process it emits a
+// recordRun is a fake Factory: instead of running a real process it emits a
 // single line recording the exact argv it was handed, so a test can assert how
 // xargs grouped input and built each invocation's argv.
 func recordRun(argv []string) gloo.Command[[]byte, []byte] {

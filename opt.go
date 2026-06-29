@@ -6,11 +6,11 @@ import gloo "github.com/gloo-foo/framework"
 // When unset or <= 0, defaults to 1 (each field on its own line).
 type XargsMaxArgs int
 
-// CommandFor turns one group's full argv into the command to run for that
-// group. argv[0] is the program/command name; argv[1:] its arguments. Because
-// it returns a gloo.Command, the factory uniformly covers both an external
-// process (see Subprocess) and any gloo-foo command of any composed complexity.
-type CommandFor func(argv []string) gloo.Command[[]byte, []byte]
+// Factory turns one group's full argv into the command to run for that group.
+// argv[0] is the program/command name; argv[1:] its arguments. Because it
+// returns a gloo.Command, the factory uniformly covers both an external process
+// (see Subprocess) and any gloo-foo command of any composed complexity.
+type Factory func(argv []string) gloo.Command[[]byte, []byte]
 
 // XargsNull is the -0 flag: split input on NUL bytes instead of whitespace, so
 // arguments may contain spaces and newlines.
@@ -27,14 +27,14 @@ type XargsMaxProcs int
 
 // XargsExec injects the factory used to build the command run for each group.
 // When unset, a command named by positional arguments runs as a subprocess.
-type XargsExec CommandFor
+type XargsExec Factory
 
 type flags struct {
-	maxArgs  XargsMaxArgs
-	null     XargsNull
+	exec     Factory
 	replace  XargsReplace
+	maxArgs  XargsMaxArgs
 	maxProcs XargsMaxProcs
-	exec     CommandFor
+	null     XargsNull
 }
 
 func (m XargsMaxArgs) Configure(f *flags) { f.maxArgs = m }
@@ -45,4 +45,4 @@ func (r XargsReplace) Configure(f *flags) { f.replace = r }
 
 func (p XargsMaxProcs) Configure(f *flags) { f.maxProcs = p }
 
-func (x XargsExec) Configure(f *flags) { f.exec = CommandFor(x) }
+func (x XargsExec) Configure(f *flags) { f.exec = Factory(x) }

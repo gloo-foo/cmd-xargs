@@ -13,7 +13,7 @@ import (
 // each invocation's output. It uses GenerateFrom so a downstream stop or a
 // cancellation chains to the input and to every in-flight child (which runs
 // under the producer scope pctx).
-func execMode(f flags, tmpl []string, run CommandFor) gloo.Command[[]byte, []byte] {
+func execMode(f flags, tmpl []string, run Factory) gloo.Command[[]byte, []byte] {
 	return gloo.FuncCommand[[]byte, []byte](func(ctx context.Context, in gloo.Stream[[]byte]) gloo.Stream[[]byte] {
 		return gloo.GenerateFrom(ctx, in, func(pctx context.Context, send func([]byte) bool, sendErr func(error)) {
 			groups := groupArgs(in.Chan(), f)
@@ -114,8 +114,8 @@ func wholeLine(line []byte) []string {
 // A non-positive n means "no limit": all fields collect into a single group.
 type grouper struct {
 	out chan<- rill.Try[[]string]
-	n   int
 	buf []string
+	n   int
 }
 
 // add appends fields, emitting a group whenever the -n size is reached.

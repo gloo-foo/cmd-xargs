@@ -40,7 +40,7 @@ func template(files []gloo.File) []string {
 
 // resolveRunner chooses the per-group command factory: an explicitly injected
 // one, else a subprocess of the positional command, else nil (regroup mode).
-func resolveRunner(f flags, tmpl []string) CommandFor {
+func resolveRunner(f flags, tmpl []string) Factory {
 	switch {
 	case f.exec != nil:
 		return f.exec
@@ -70,8 +70,9 @@ func group(n fieldCount) func([]byte) ([][]byte, error) {
 
 // chunk joins fields into space-separated lines of at most n fields each.
 func chunk(fields [][]byte, n fieldCount) [][]byte {
-	var lines [][]byte
-	for _, batch := range batches(fields, n) {
+	groups := batches(fields, n)
+	lines := make([][]byte, 0, len(groups))
+	for _, batch := range groups {
 		lines = append(lines, bytes.Join(batch, []byte(" ")))
 	}
 	return lines

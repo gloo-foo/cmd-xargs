@@ -3,10 +3,10 @@ package xargs_test
 import (
 	"fmt"
 
-	command "github.com/gloo-foo/cmd-xargs"
-
 	gloo "github.com/gloo-foo/framework"
 	"github.com/gloo-foo/testable"
+
+	command "github.com/gloo-foo/cmd-xargs"
 )
 
 func ExampleXargs_exec() {
